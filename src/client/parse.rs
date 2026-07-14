@@ -502,13 +502,8 @@ pub(crate) struct SetupResponse {
 }
 
 fn parse_server_port(server_port: &str) -> Result<u16, ()> {
-    if let Some((a, b)) = server_port.split_once('-') {
+    if let Some((a, _b)) = server_port.split_once('-') {
         let a = u16::from_str_radix(a, 10).map_err(|_| ())?;
-        let b = u16::from_str_radix(b, 10).map_err(|_| ())?;
-        if a.checked_add(1) != Some(b) {
-            // It's unclear what a non-consecutive range means.
-            return Err(());
-        }
         return Ok(a);
     }
 
